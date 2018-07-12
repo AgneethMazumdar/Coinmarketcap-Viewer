@@ -25,25 +25,33 @@ type Listings struct {
 	} `json:"metadata"`
 }
 
-func Response(get string) Listings {
-
-	var listing Listings
-
+func HandleRequest(get string) []byte {
 	response, err := http.Get(get)
 
 	if err != nil {
 		fmt.Printf("The HTTP request failed with err %s\n", err)
-	} else {
-		data, _ := ioutil.ReadAll(response.Body)
-		json.Unmarshal(data, &listing)
 	}
+	data, _ := ioutil.ReadAll(response.Body)
 	defer response.Body.Close()
-	fmt.Println(listing.Data[0].Name)
+
+	return data
+}
+
+func Response(get string) Listings {
+
+	var listing Listings
+
+	data := HandleRequest(get)
+	json.Unmarshal(data, &listing)
 
 	return listing
 }
 
 func main() {
 	fmt.Println("Starting the application...")
-	Response("https://api.coinmarketcap.com/v2/listings/")
+	data := Response("https://api.coinmarketcap.com/v2/listings/")
+
+	for _, value := range data.Data {
+		fmt.Println("ID: ", value.ID, " Name: ", value.Name)
+	}
 }
