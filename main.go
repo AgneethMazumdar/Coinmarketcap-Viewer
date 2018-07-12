@@ -25,20 +25,22 @@ type Listings struct {
 	} `json:"metadata"`
 }
 
-func Response(get string) Request {
+func Response(get string) Listings {
 
-	req := Request{}
+	var listing Listings
+
 	response, err := http.Get(get)
 
 	if err != nil {
 		fmt.Printf("The HTTP request failed with err %s\n", err)
 	} else {
 		data, _ := ioutil.ReadAll(response.Body)
-		json.Unmarshal(data, &req)
+		json.Unmarshal(data, &listing)
 	}
 	defer response.Body.Close()
+	fmt.Println(listing.Data[0].Name)
 
-	return req
+	return listing
 }
 
 func main() {
