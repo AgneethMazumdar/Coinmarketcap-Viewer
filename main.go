@@ -33,18 +33,3 @@ func main() {
 
 // We need to be able to retrieve the data from the database and
 // loop it onto a a web page
-
-// Symbol - Name - Price - 24HR Volume - MarketCap
-
-/*
-
-CREATE TABLE btc (
-	timestamp int,
-	symbol VARCHAR(20),
-	name VARCHAR(20),
-	price VARCHAR(20),
-	volume VARCHAR(20),
-	marketcap VARCHAR(20)
-)
-
-*/
