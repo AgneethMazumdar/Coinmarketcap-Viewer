@@ -81,7 +81,7 @@ func queryRowID(c CoinData, db *sql.DB, id int) {
 		&c.Price, &c.Volume, &c.MarketCap)
 }
 
-func queryAll(c CoinData, db *sql.DB) {
+func queryAll(c CoinData, db *sql.DB) *sql.Rows {
 
 	query :=
 		`SELECT * FROM btc`
@@ -90,9 +90,11 @@ func queryAll(c CoinData, db *sql.DB) {
 	checkErr(err)
 
 	defer rows.Close()
-	logAll(rows, c)
+	// logAll(rows, c)
 
 	checkErr(rows.Err())
+
+	return rows
 }
 
 func logAll(rows *sql.Rows, c CoinData) {
@@ -103,8 +105,8 @@ func logAll(rows *sql.Rows, c CoinData) {
 
 		checkErr(err)
 
-		log.Println(&c.Timestamp, &c.Symbol, &c.Name,
-			&c.Price, &c.Volume, &c.MarketCap)
+		// log.Println(c.Timestamp, c.Symbol, c.Name,
+		// 	c.Price, c.Volume, c.MarketCap)
 	}
 }
 
@@ -115,8 +117,4 @@ func checkErr(e error) {
 }
 
 // change query all to receive a query
-// change querry all to create and append objects to a slice
-
-// Maybe you could create a general service for people?
-// Custom make API wrappers and webscraping tools
-// and provide login credentials and hosting?
+// change query all to create and append objects to a slice

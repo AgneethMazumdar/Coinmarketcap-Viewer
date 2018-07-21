@@ -50,8 +50,22 @@ func handleRequest(get string) []byte {
 
 func TickerRes(t Tickers) Tickers {
 
-	request := "https://api.coinmarketcap.com/v2/ticker/?structure=array"
-	json.Unmarshal(handleRequest(request), &t)
+	GET := "https://api.coinmarketcap.com/v2/ticker/?structure=array"
+	json.Unmarshal(handleRequest(GET), &t)
 
 	return t
+}
+
+func BTC() CoinData {
+	t := TickerRes(Tickers{})
+
+	btc := CoinData{
+		Timestamp: t.Metadata.Timestamp,
+		Symbol:    t.Data[0].Symbol,
+		Name:      t.Data[0].Name,
+		Price:     t.Data[0].Quotes.USD.Price,
+		Volume:    t.Data[0].Quotes.USD.Volume24H,
+		MarketCap: t.Data[0].Quotes.USD.MarketCap,
+	}
+	return btc
 }

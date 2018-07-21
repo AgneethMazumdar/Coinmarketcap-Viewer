@@ -1,0 +1,27 @@
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<div class="col-md-6">
+    <table class="table" class="table table-sm">
+        <tr>
+            <th>Timestamp</th>
+            <th>Symbol</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Volume</th>
+            <th>Marketcap</th>
+        </tr>
+
+        {{range . }} 
+            <tr>
+                <td>{{ .Timestamp }}</td>
+                <td>{{ .Symbol }}</td>
+                <td>{{ .Name }}</td>
+                <td>{{ .Price }}</td>
+                <td>{{ .Volume }}</td>
+                <td>{{ .MarketCap }}</td>
+            </tr>
+        {{ end }}
+    </table>
+</div>
