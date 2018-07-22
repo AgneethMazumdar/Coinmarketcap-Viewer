@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"sync"
 
 	_ "github.com/lib/pq"
 )
@@ -61,18 +62,26 @@ func displayCoins(c CoinData, db *sql.DB) []CoinData {
 func main() {
 
 	c := CoinData{}
-
 	db := initDB()
 
-	// insert(BTC(), db)
-	displayCoins(c, db)
+	// run a go rountine to indefinitely retrieve cmc data
+	var wg sync.WaitGroup
+	wg.Add(1)
 
-	db.Close()
+	go func() {
+		insert(BTC(), db)
+		wg.Done()
+	}()
+
+	// simultaneously display the coins
+	go displayCoins(c, db)
+
+	// db.Close()
 
 	http.HandleFunc("/", indexHandler)
 	http.ListenAndServe(":8000", nil)
 
 }
 
-// We need to be able to retrieve the data from the database and
-// loop it onto a a web page
+// Now we need to use web sockets to get the page to update continuously
+// Then the proof of concept is done!

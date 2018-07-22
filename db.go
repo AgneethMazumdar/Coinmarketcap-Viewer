@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"time"
 
 	_ "github.com/lib/pq"
 )
@@ -54,14 +55,20 @@ func initDB() *sql.DB {
 
 func insert(c CoinData, db *sql.DB) {
 
-	sqlStatement :=
-		`INSERT INTO btc (timestamp, symbol, name, price, volume, marketcap) 
-		VALUES ($1, $2, $3, $4, $5, $6)`
+	for {
+		time.Sleep(time.Second * 5)
 
-	_, err := db.Exec(sqlStatement, c.Timestamp, c.Symbol,
-		c.Name, c.Price, c.Volume, c.MarketCap)
+		sqlStatement :=
+			`INSERT INTO btc (timestamp, symbol, name, price, volume, marketcap) 
+			VALUES ($1, $2, $3, $4, $5, $6)`
 
-	checkErr(err)
+		_, err := db.Exec(sqlStatement, c.Timestamp, c.Symbol,
+			c.Name, c.Price, c.Volume, c.MarketCap)
+
+		checkErr(err)
+		fmt.Println(c.Timestamp, c.Symbol,
+			c.Name, c.Price, c.Volume, c.MarketCap)
+	}
 }
 
 func queryRowID(c CoinData, db *sql.DB, id int) {
