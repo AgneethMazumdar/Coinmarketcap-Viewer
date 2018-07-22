@@ -80,8 +80,4 @@ func main() {
 
 	http.HandleFunc("/", indexHandler)
 	http.ListenAndServe(":8000", nil)
-
 }
-
-// Now we need to use web sockets to get the page to update continuously
-// Then the proof of concept is done!
